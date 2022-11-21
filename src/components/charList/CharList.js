@@ -43,7 +43,9 @@ class CharList extends Component {
         const items = arr.map((elem) => {
             const fitDepencies = elem.thumbnail.indexOf('image_not_available') !== -1 ? {objectFit: 'unset'} : {objectFit: 'cover'};
             return(
-                <li className="char__item" key={elem.id}>
+                <li className="char__item"
+                    key={elem.id}
+                    onClick={() => this.props.onCharSelected(elem.id)}>
                     <img src={elem.thumbnail} style={fitDepencies} alt={elem.name}/>
                     <div className="char__name">{elem.name}</div>
                 </li>
