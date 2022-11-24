@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import './charList.scss';
@@ -16,11 +16,22 @@ class CharList extends Component {
         offset: 220,
         charEnded: false
     }
+    itemRefs = [];
 
     marvelService = new MarvelService();
 
     componentDidMount() {
         this.onRequest();
+    }
+
+    setRef = (ref) => {
+        this.itemRefs.push(ref);
+    }
+
+    focusOnItem = (id) => {
+        this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
+        this.itemRefs[id].classList.add('char__item_selected');
+        this.itemRefs[id].focus();
     }
 
     onRequest = (offset) => {
@@ -60,13 +71,23 @@ class CharList extends Component {
 
     renderItems(arr) {
 
-        const items = arr.map((elem) => {
+        const items = arr.map((elem, i) => {
             const fitDepencies = elem.thumbnail.indexOf('image_not_available') !== -1 ? {objectFit: 'unset'} : {objectFit: 'cover'};
             return(
                 <li className="char__item"
                     key={elem.id}
-                    onClick={() => this.props.onCharSelected(elem.id)}>
-                    <img src={elem.thumbnail} style={fitDepencies} alt={elem.name}/>
+                    ref={this.setRef}
+                    onClick={() => {
+                            this.props.onCharSelected(elem.id);
+                            this.focusOnItem(i);
+                    }}
+                    onKeyPress={(e) => {
+                        if (e.key === ' ' || e.key === 'Enter') {
+                            this.props.onCharSelected(elem.id);
+                            this.focusOnItem(i);
+                        }
+                    }}>
+                    <img src={elem.thumbnail} style={fitDepencies} alt={elem.name} />
                     <div className="char__name">{elem.name}</div>
                 </li>
             )
