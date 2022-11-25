@@ -16,22 +16,12 @@ class CharList extends Component {
         offset: 220,
         charEnded: false
     }
-    itemRefs = [];
+    activeCharCard = React.createRef();
 
     marvelService = new MarvelService();
 
     componentDidMount() {
         this.onRequest();
-    }
-
-    setRef = (ref) => {
-        this.itemRefs.push(ref);
-    }
-
-    focusOnItem = (id) => {
-        this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
-        this.itemRefs[id].classList.add('char__item_selected');
-        this.itemRefs[id].focus();
     }
 
     onRequest = (offset) => {
@@ -69,25 +59,40 @@ class CharList extends Component {
         })
     }
 
+    itemRefs = [];
+
+    setRef = (ref) => {
+        this.itemRefs.push(ref);
+    }
+
+    focusOnItem = (id) => {
+        this.itemRefs.forEach(item => item.classList.remove('char__item_selected'));
+        this.itemRefs[id].classList.add('char__item_selected');
+        this.itemRefs[id].focus();
+
+    }
+
     renderItems(arr) {
 
         const items = arr.map((elem, i) => {
             const fitDepencies = elem.thumbnail.indexOf('image_not_available') !== -1 ? {objectFit: 'unset'} : {objectFit: 'cover'};
             return(
                 <li className="char__item"
-                    key={elem.id}
+                    tabIndex={0}
                     ref={this.setRef}
+                    key={elem.id}
                     onClick={() => {
-                            this.props.onCharSelected(elem.id);
-                            this.focusOnItem(i);
-                    }}
+                        this.props.onCharSelected(elem.id);
+                        this.focusOnItem(i);
+                    }}>
+
                     onKeyPress={(e) => {
                         if (e.key === ' ' || e.key === 'Enter') {
                             this.props.onCharSelected(elem.id);
                             this.focusOnItem(i);
                         }
-                    }}>
-                    <img src={elem.thumbnail} style={fitDepencies} alt={elem.name} />
+                    }}
+                    <img src={elem.thumbnail} style={fitDepencies} alt={elem.name} onClick={this.onActiveCard} />
                     <div className="char__name">{elem.name}</div>
                 </li>
             )
