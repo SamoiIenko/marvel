@@ -43,6 +43,7 @@ const useMarvelService = () => {
             id: comics.id,
             title: comics.title,
             description: comics.description,
+            thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
             pageCount: comics.pageCount,
             price: comics.prices[0].price
         }
