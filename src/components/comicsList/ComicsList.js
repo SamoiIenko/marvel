@@ -9,7 +9,7 @@ const ComicsList = () => {
 
     const [comicsList, setComicsList] = useState([]);
     const [newItemLoading, setNewItemLoading] = useState(false);
-    const [offset, setOffset] = useState(220);
+    const [offset, setOffset] = useState(0);
     const [comicsEnded, setComicsEnded] = useState(false);
 
     const {loading, error, getAllComicses} = useMarvelService();
@@ -26,22 +26,21 @@ const ComicsList = () => {
 
     const onComicsListLoaded = (newComicsList) => {
         let ended = false;
-        if (newComicsList.length < 9) {
+        if (newComicsList.length < 8) {
             ended = true;
         }
 
         setComicsList(comicsList => [...comicsList, ...newComicsList]);
-        setNewItemLoading(newItemLoading => false);
-        setOffset(offset => offset + 9);
-        setComicsEnded(comicsEnded => ended)
+        setNewItemLoading(false);
+        setOffset(offset + 8);
+        setComicsEnded(ended)
     }
 
     function renderItems(arr) {
         const items = arr.map((elem, i) => {
             return (
                 <li className="comics__item"
-                    tabIndex={0}
-                    key={elem.id} >
+                    key={i} >
                     <a href="#">
                         <img src={elem.thumbnail} alt={elem.title} className="comics__item-img"/>
                         <div className="comics__item-name">{elem.title}</div>

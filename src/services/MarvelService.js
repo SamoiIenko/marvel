@@ -14,7 +14,7 @@ const useMarvelService = () => {
         return res.data.results.map(_transformCharacter)
     }
 
-    const getAllComicses = async (offset = _baseOffset) => {
+    const getAllComicses = async (offset = 0) => {
         const res = await request(`${_apiBase}comics?limit=9&offset=${offset}&${_apiKey}`);
         return res.data.results.map(_transformComics)
     }
