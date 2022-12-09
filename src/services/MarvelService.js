@@ -35,7 +35,7 @@ const useMarvelService = () => {
         return {
             id: char.id,
             name: char.name,
-            description: char.description,
+            description: char.description || 'There is no description',
             thumbnail: char.thumbnail.path + '.' + char.thumbnail.extension,
             homepage: char.urls[0].url,
             wiki: char.urls[1].url,
@@ -47,14 +47,15 @@ const useMarvelService = () => {
         return {
             id: comics.id,
             title: comics.title,
-            description: comics.description,
+            description: comics.description || 'There is no description',
             thumbnail: comics.thumbnail.path + '.' + comics.thumbnail.extension,
-            pageCount: comics.pageCount,
-            price: comics.prices[0].price
+            pageCount: comics.pageCount ? `${comics.pageCount} p.` : 'No information about the number of pages',
+            price: comics.prices.price ? `${comics.prices.price}$` : 'not available',
+            language: comics.textObjects.language || 'en-us'
         }
     }
 
-    return {loading, error, clearError, getAllCharacters, getAllComicses, getCharacter}
+    return {loading, error, clearError, getAllCharacters, getAllComicses, getCharacter, getComics}
 }
 
 export default useMarvelService;
