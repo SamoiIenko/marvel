@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { CSSTransition } from 'react-transition-group';
 
 import './charList.scss';
 import useMarvelService from '../../services/MarvelService';
@@ -49,14 +50,14 @@ const CharList = (props) => {
     }
 
     function renderItems(arr) {
-
         const items = arr.map((elem, i) => {
             const fitDepencies = elem.thumbnail.indexOf('image_not_available') !== -1 ? {objectFit: 'unset'} : {objectFit: 'cover'};
             return(
-                <li className="char__item"
+                <CSSTransition key={elem.id} timeout={500} className="char__item">
+                    <li 
+                    className="char__item"
                     tabIndex={0}
                     ref={el => itemRefs.current[i] = el}
-                    key={elem.id}
                     onClick={() => {
                         props.onCharSelected(elem.id);
                         focusOnItem(i);
@@ -71,6 +72,7 @@ const CharList = (props) => {
                     <img src={elem.thumbnail} style={fitDepencies} alt={elem.name} />
                     <div className="char__name">{elem.name}</div>
                 </li>
+                </CSSTransition>
             )
         });
 
@@ -94,7 +96,6 @@ const CharList = (props) => {
             {spinner}
             {items}
             <button 
-                className="button button__main button__long"
                 disabled={newItemLoading}
                 style={{'display': charEnded ? 'none' : 'block'}}
                 onClick={() => onRequest(offset)}>
