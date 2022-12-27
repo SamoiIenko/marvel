@@ -6,6 +6,7 @@ function CharFinder() {
 
   const [name, setName] = useState('');
   const {getCharacterByName} = useMarvelService();
+  const [toggleName, setToggleName] = useState(false);
   
   
 
@@ -18,6 +19,7 @@ function CharFinder() {
 
   const viewChar = (data) => {
       setName(data);
+      setToggleName(!toggleName);
 }
 
 
@@ -30,6 +32,7 @@ function CharFinder() {
                 <div className="inner">Find</div>
             </button>
         </div>
+        <a className={toggleName ? 'charfinder__toggle show' : 'charfinder__toggle hide'}>There is! Visit {name.name} page?</a>
     </form>
   )
 }
