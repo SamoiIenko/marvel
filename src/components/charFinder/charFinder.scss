@@ -23,6 +23,8 @@
         margin-top: 22px;
         font-weight: 700;
         font-size: 18px;
+        justify-content: space-between;
+        align-items: center;
     }
     &__toggle:hover {
         cursor: pointer;
@@ -34,5 +36,13 @@
 }
 
 .show {
-    display: block;
+    display: flex;
+}
+
+.error {
+    width: 100%;
+    color: #9F0013;
+    font-weight: 700;
+    font-size: 18px;
+    margin-top: 8px;
 }
