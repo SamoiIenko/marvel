@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 
 import useMarvelService from '../../services/MarvelService';
 import './charFinder.scss';
@@ -14,9 +15,12 @@ function CharFinder() {
 
   const getCharName = (e) => {
     e.preventDefault();
-    const name = 'thor';
     getCharacterByName(name)
       .then(viewChar)
+  }
+
+  const handleChange = (event) => {
+    setName(event.target.value);
   }
 
   const viewChar = (data) => {
@@ -42,7 +46,9 @@ function CharFinder() {
                     id="name"
                     name="name"
                     as="input"
-                    placeholder="Enter name" />
+                    placeholder="Enter name"
+                    onChange={handleChange}
+                    value={name} />
                 <button onClick={getCharName} className="button button__main">
                     <div className="inner">Find</div>
                 </button>
@@ -53,7 +59,7 @@ function CharFinder() {
             <div className={toggleName ? 'charfinder__toggle show' : 'charfinder__toggle hide'}>
             <a>There is! Visit {name.name} page?</a>
             <button className="button button__secondary">
-                <div className="inner">To page</div>
+                <div className="inner"><Link to={`/character/${name.id}`}>To page</Link></div>
             </button>
             </div>
             
