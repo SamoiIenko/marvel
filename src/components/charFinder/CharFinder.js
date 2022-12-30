@@ -10,6 +10,7 @@ function CharFinder() {
     const [name, setName] = useState('');
     const {getCharacterByName} = useMarvelService();
     const [toggleName, setToggleName] = useState(false);
+    const [toggleError, setToggleError] = useState(false);
   
   
 
@@ -17,6 +18,7 @@ function CharFinder() {
     e.preventDefault();
     getCharacterByName(name)
       .then(viewChar)
+      .catch(getError)
   }
 
   const handleChange = (event) => {
@@ -26,7 +28,13 @@ function CharFinder() {
   const viewChar = (data) => {
       setName(data);
       setToggleName(!toggleName);
+      setToggleError(false);
 }
+
+    const getError = () => {
+        console.log('error in request sorry buddy');
+        setToggleError(true);
+    } 
 
 
   return (
@@ -56,6 +64,7 @@ function CharFinder() {
             <div>
                 <ErrorMessage name="name" className="error" component="div" />
             </div>
+            {toggleError ? <div className="charfinder__error">The character was not found. Check the name and try again</div> : null}
             <div className={toggleName ? 'charfinder__toggle show' : 'charfinder__toggle hide'}>
             <a>There is! Visit {name.name} page?</a>
             <button className="button button__secondary">
