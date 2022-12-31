@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
-import './singleComicLayout.scss';
+import './SingleComicLayout.scss';
 
-const singleComicLayout = ({data}) => {
+const SingleComicLayout = ({data}) => {
     const {title, description, pageCount, thumbnail, language, price} = data;
 
     return (
@@ -20,4 +20,4 @@ const singleComicLayout = ({data}) => {
     )
 }
 
-export default singleComicLayout;
+export default SingleComicLayout;
