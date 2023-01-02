@@ -112,6 +112,7 @@ const CharList = (props) => {
         <div className="char__list">
             {elements}
             <button 
+                className="button button__main button__long"
                 disabled={newItemLoading}
                 style={{'display': charEnded ? 'none' : 'block'}}
                 onClick={() => onRequest(offset)}>
